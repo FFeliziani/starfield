@@ -13,8 +13,18 @@ var canvas = null;
 var ctx = null;
 var drawIndex = 0;
 var updateIndex = 0;
+var mouseX = null;
+var mouseY = null;
+
+function onMouseUpdate(e) {
+	mouseX = e.pageX;
+	mouseY = e.pageY;
+}
 	
 function init() {
+	// SETTO IL GESTORE DELL'EVENTO DEL MOUSE
+	document.addEventListener('mousemove', onMouseUpdate, false);
+	document.addEventListener('mouseenter', onMouseUpdate, false);
 	// IMPOSTO IL CREATO
 	canvas = document.getElementById('mainCanvas');
 	$(canvas).prop("width", WINDOW_WIDTH);
@@ -27,7 +37,7 @@ function init() {
 		while (i < STARNUM)
 		{
 			var star = {
-				x: Math.random() *  WINDOW_WIDTH,
+				x: Math.random() * WINDOW_WIDTH,
 				y: Math.random() * WINDOW_HEIGHT
 			};
 			starList[i] = star;
@@ -36,14 +46,15 @@ function init() {
 		
 		// CREO IL CIELO
 		ctx.fillStyle = 'rgb(0,0,0)';
-		ctx.fillRect(0, 0, WINDOW_WIDTH, WINDOW_WIDTH);
+		ctx.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		setInterval(draw, 30);
 		setInterval(update, 30);
 	}
 }
 
 function update() {
-	var center = { x: WINDOW_WIDTH / 2, y: WINDOW_HEIGHT / 2};
+	//var center = { x: WINDOW_WIDTH / 2, y: WINDOW_HEIGHT / 2};
+	var center = { x: mouseX, y: mouseY};
 	while(updateIndex < STARNUM)
 	{
 		var star = starList[updateIndex];
